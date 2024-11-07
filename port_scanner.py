@@ -59,6 +59,7 @@ def tcp_scan(host: str, port: int) -> None:
 
 
 def cli() -> Tuple[str, List[int]]:
+    # TODO: add a help section and improve the look and feel of cli
     parser = argparse.ArgumentParser(prog='Port Scanner', usage='python3 port_scanner.py host ports')
 
     parser.add_argument('host')

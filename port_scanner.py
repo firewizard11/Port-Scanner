@@ -38,6 +38,5 @@ def cli() -> Tuple[str, List[int]]:
     host = args.host
     ports = args.ports
 
-    
 
 main()

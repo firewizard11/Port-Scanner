@@ -1,9 +1,10 @@
+import argparse
 from socket import socket, AF_INET, SOCK_STREAM
+from typing import Tuple, List
 
 
 def main():
-    host = '192.168.60.128'
-    ports = [4444]
+    host, ports = cli()
 
     print(f'[*] Starting Scan on host: {host}...')
     for port in ports:
@@ -25,5 +26,18 @@ def scan_port(host: str, port: int) -> None:
             return
         
         print(f'[*] Connected to port: {port}')
+
+
+def cli() -> Tuple[str, List[int]]:
+    parser = argparse.ArgumentParser(prog='Port Scanner', usage='python3 port_scanner.py host ports')
+
+    parser.add_argument('host')
+    parser.add_argument('ports')
+
+    args = parser.parse_args()
+    host = args.host
+    ports = args.ports
+
+    
 
 main()

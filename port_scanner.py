@@ -18,16 +18,29 @@ def main():
     print('=' * 100)
 
     host, ports = cli()
+    global open_ports
+    open_ports = []
 
     print(f'[*] Starting Port Scan on host: {host}...')
 
     for port in ports:
-        scan_port(host, port)
+        tcp_scan(host, port)
     
     print(f'[*] Port Scan Ended for host: {host}')
 
 
-def scan_port(host: str, port: int) -> None:
+    print('=' * 100)
+
+    if len(open_ports) > 0:
+        for port in open_ports:
+            print(f'[$] {port} | OPEN')
+    else:
+        print('[!] There are no OPEN ports')
+
+
+def tcp_scan(host: str, port: int) -> None:
+    # TODO: Check for filtered ports
+
     with socket(AF_INET, SOCK_STREAM) as sock:
         print(f'[*] Testing port: {port}')
         sock.settimeout(1)
@@ -42,6 +55,7 @@ def scan_port(host: str, port: int) -> None:
             return
         
         print(f'[*] Connected to port: {port}')
+        open_ports.append(port)
 
 
 def cli() -> Tuple[str, List[int]]:
@@ -58,6 +72,7 @@ def cli() -> Tuple[str, List[int]]:
             raise ValueError(f'{host} is not an IPv4 address')
 
     ports: str = args.ports
+    # TODO: Validate port number range (0-65535)
     if ',' not in ports and '-' not in ports:
         try:
             ports = [int(ports)]

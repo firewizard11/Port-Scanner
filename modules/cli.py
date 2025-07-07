@@ -1,7 +1,7 @@
 import argparse
 import re
-import scanner
 
+from modules import scanner
 
 
 def run():

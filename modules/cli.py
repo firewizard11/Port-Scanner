@@ -1,5 +1,6 @@
 import argparse
 import re
+import socket
 
 from modules import scanner
 
@@ -28,10 +29,6 @@ def run():
     args = parser.parse_args()
 
     host: str = args.host
-
-    if not validate_ip(host):
-        print("Error: {} is not a valid IP".format(host))
-        return
 
     try:
         ports: list[int] = parse_ports(args.ports)
@@ -65,7 +62,8 @@ def run():
 
         if pool:
             pool.shutdown(wait=False, cancel_futures=True)
-
+    except socket.gaierror:
+        print("Error: Invalid Address")
 
 def parse_ports(ports: str) -> list[int]:
     re_dash = re.compile(r"^\d+-\d+$")
@@ -94,14 +92,3 @@ def parse_ports(ports: str) -> list[int]:
 def validate_port(port: int) -> bool:
     return 0 <= port <= 65535
 
-
-def validate_ip(ip: str) -> bool:
-    re_ip = re.compile(r"^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$")
-
-    if re_ip.fullmatch(ip):
-        for octet in ip.split("."):
-            if not (0 <= int(octet) <= 255):
-                return False
-        return True
-    else:
-        return False

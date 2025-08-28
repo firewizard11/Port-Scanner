@@ -1,16 +1,16 @@
 # Port Scanner
 
+Project Link: <https://github.com/firewizard11/Port-Scanner>
+
 ## Description
 
-This is my own personal port scanner that I'm going to add to as I used it
+Port Scanner is a CLI port scanning tool that simply checks if a connection can be made with a port or not (For now...)
 
-## How to Use
+## How to Install
 
-Scan all ports on host '192.168.1.1' sequentially
-
-`python3 scan.py -h 192.168.1.1 -p 1-65535` 
-
-Scan Ports: 22,80,43,135,4444 on Host 127.0.0.1 with 40 ports at a time
-
-`python3 scan.py -h 127.0.0.1 -p 22,80,43,135,4444 -t 40`
+```sh
+git clone https://github.com/firewizard11/Port-Scanner
+cd Port-Scanner
+python3 portscan.py
+```
 

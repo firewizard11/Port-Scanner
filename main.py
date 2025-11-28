@@ -16,7 +16,8 @@ print()
 print("Timeout: " + str(timeout))
 
 print("Starting TCP Scan")
-for port in target_ports:
-    result = scanner.tcp_scan(port)
+open_ports = scanner.sequential_scan()
 
-    print(str(port) + " : " + str(result))
+print("Results:")
+for port in target_ports:
+    print(f"{port} || {"Open" if port in open_ports else "Closed"}")

@@ -9,9 +9,31 @@ class PortScanner():
     def __init__(self, target_host: str, target_ports: list[int], timeout: int):
         self.target_host = target_host
         self.target_ports = target_ports
-        self.timeout = timeout
+        self.timeout = timeout # The amount of time to wait before ending a probe
 
-    def tcp_scan(self, target_port: int) -> bool:
+    def sequential_scan(self) -> list[int]:
+        """Scan each port in target_ports one after the other
+        :returns:
+        open_ports(list[int]): List of port numbers that returned True with the probe
+        """
+        open_ports = []
+
+        for port in self.target_ports:
+            if self.tcp_probe(port):
+                open_ports.append(port)
+
+        return open_ports
+
+    def tcp_probe(self, target_port: int) -> bool:
+        """ Completes full 3 way handshake to test port
+        :args:
+        target_port(int): The specific port number to test
+
+        :returns:
+        Probe Result(bool): The result of the scan
+        - True = open
+        - False = closed (not open)
+        """
         target_addr = (self.target_host, target_port)
 
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -21,3 +43,4 @@ class PortScanner():
                 return True
             except:
                 return False
+            

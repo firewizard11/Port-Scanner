@@ -6,10 +6,15 @@ MAX_PORT = 65535
 
 class PortScanner():
 
-    def __init__(self, target_host: str, target_ports: list[int], timeout: int):
+    def __init__(self, target_host: str, target_ports: list[int], timeout: int = 1):
         self.target_host = target_host
+
         self.target_ports = target_ports
+        self.validate_portlist()
+        
         self.timeout = timeout # The amount of time to wait before ending a probe
+        if self.timeout < 1:
+            raise ValueError("timeout should be greater than 0")
 
     def sequential_scan(self) -> list[int]:
         """Scan each port in target_ports one after the other
@@ -43,6 +48,19 @@ class PortScanner():
                 return True
             except:
                 return False
+            
+    def validate_port_list(self):
+        if not isinstance(self.target_ports, list):
+            raise TypeError("portlist should be a list")
+        
+        if len(self.target_ports) < 1:
+            raise ValueError(f"portlist should have atleast 1 port (current={len(self.target_ports)})")
+        
+        if len(self.target_ports) > 65535:
+            raise ValueError(f"portlist should have less than 65535 ports (current={len(self.target_ports)})")
+        
+        for port in self.target_ports:
+            self.validate_port(port)
     
     def validate_port(self, port: int):
         if not isinstance(port, int):

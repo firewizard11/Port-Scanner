@@ -43,4 +43,10 @@ class PortScanner():
                 return True
             except:
                 return False
-            
+    
+    def validate_port(self, port: int):
+        if not isinstance(port, int):
+            raise TypeError("port should be of type int")
+        
+        if not (0 < port <= 65535):
+            raise ValueError("port should be between 1 and 65535 (inclusive)")

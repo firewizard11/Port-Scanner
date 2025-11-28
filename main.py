@@ -1,6 +1,6 @@
 from modules import port_scanner
 
-target_host = "10.48.152.71"
+target_host = "10.48.161.248"
 target_ports = [21, 22, 80, 443]
 timeout = 1
 scanner = port_scanner.PortScanner(target_host, target_ports, timeout)

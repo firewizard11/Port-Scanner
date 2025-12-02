@@ -8,14 +8,14 @@ MAX_PORT = 65535
 
 class PortScanner():
 
-    def __init__(self, target_host: str, target_ports: list[int], timeout: int = 1, max_probes: int = 1, verbose: bool = False):
+    def __init__(self, target_host: str, target_ports: list[int], timeout: float = 1, max_probes: int = 1, verbose: bool = False):
         self.target_host = target_host
 
         self.target_ports = target_ports
         helper.validate_port_list(self.target_ports)
         
         self.timeout = timeout # The amount of time to wait before ending a probe
-        if self.timeout < 1:
+        if self.timeout <= 0:
             raise ValueError("timeout should be greater than 0")
         
         self.max_probes = max_probes
@@ -49,8 +49,8 @@ class PortScanner():
         if self.verbose: print(f"[*] Starting Concurrent Scan on {self.target_host} (max_probes={self.max_probes})")
         open_ports = []
 
-        try:
-            with ThreadPoolExecutor(self.max_probes) as pool:
+        with ThreadPoolExecutor(self.max_probes) as pool:
+            try:
                 futures = {pool.submit(self.tcp_probe, port):port for port in self.target_ports}
 
                 for future in as_completed(futures):
@@ -61,8 +61,9 @@ class PortScanner():
                     if is_open:
                         if self.verbose: print(f"[+] {port} is Open")
                         open_ports.append(port)
-        except KeyboardInterrupt:
-            pass
+            except KeyboardInterrupt:
+                pool.shutdown(wait=False, cancel_futures=True)
+                raise KeyboardInterrupt()
 
         return open_ports
 

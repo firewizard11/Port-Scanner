@@ -1,14 +1,4 @@
-from modules import port_scanner
+from modules import cli
 
-target_host = "10.48.161.248"
-target_ports = list(range(1,65535+1))
-timeout = 1
-max_probes = 200
-verbose = True
-scanner = port_scanner.PortScanner(target_host, target_ports, timeout, max_probes, verbose)
-
-open_ports = scanner.concurrent_scan()
-
-print("Results:")
-for port in target_ports:
-    print(f"{port} || {"Open" if port in open_ports else "Closed"}")
+prog = cli.CLI()
+prog.run()

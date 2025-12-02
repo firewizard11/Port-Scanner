@@ -1,5 +1,6 @@
 import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from modules import helper
 
 
 MAX_PORT = 65535
@@ -11,7 +12,7 @@ class PortScanner():
         self.target_host = target_host
 
         self.target_ports = target_ports
-        self.validate_port_list()
+        helper.validate_port_list()
         
         self.timeout = timeout # The amount of time to wait before ending a probe
         if self.timeout < 1:

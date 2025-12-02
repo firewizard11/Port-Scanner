@@ -21,6 +21,7 @@ class CLI:
                 self.open_ports = self.scanner.sequential_scan()
         except KeyboardInterrupt:
             print("Caught Ctrl+C, Exiting...")
+            exit(130)
 
     def print_results(self):
         print("=== SCAN REPORT ===")
@@ -44,10 +45,10 @@ class CLI:
         parser = argparse.ArgumentParser(add_help=False)
         parser.add_argument("-h", "--host", required=True)
         parser.add_argument("-p", "--ports", required=True)
-        parser.add_argument("-t", "--timeout", type=int, default=1)
+        parser.add_argument("-t", "--timeout", type=float, default=1)
         parser.add_argument("-mp", "--max_probes", type=int, default=1)
-        parser.add_argument("-v", "--verbose", type=bool, default=False)
-        parser.add_argument("-T", "--threaded", type=bool, default=False)
+        parser.add_argument("-v", "--verbose", action="store_true")
+        parser.add_argument("-T", "--threaded", action="store_true")
 
         args = parser.parse_args()
 

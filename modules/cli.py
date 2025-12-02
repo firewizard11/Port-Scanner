@@ -9,6 +9,9 @@ class CLI:
         self.get_args()
         self.setup_scanner()
 
+    def print_results(self):
+        pass
+
     def setup_scanner(self):
         self.scanner = port_scanner.PortScanner(
             self.args["host"],
@@ -19,13 +22,13 @@ class CLI:
         )
 
     def get_args(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument("--host", required=True)
-        parser.add_argument("--ports", required=True)
-        parser.add_argument("--timeout", type=int, default=1)
-        parser.add_argument("--max_probes", type=int, default=1)
-        parser.add_argument("--verbose", type=bool, default=False)
-        parser.add_argument("--scan_type", choices=[
+        parser = argparse.ArgumentParser(add_help=False)
+        parser.add_argument("-h", "--host", required=True)
+        parser.add_argument("-p", "--ports", required=True)
+        parser.add_argument("-t", "--timeout", type=int, default=1)
+        parser.add_argument("-mp", "--max_probes", type=int, default=1)
+        parser.add_argument("-v", "--verbose", type=bool, default=False)
+        parser.add_argument("-st", "--scan_type", choices=[
             "tcp",
         ], required=True)
 

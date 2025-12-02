@@ -6,17 +6,24 @@ from modules import port_scanner
 class CLI:
 
     def run(self):
-        pass
+        self.get_args()
+        self.setup_scanner()
 
-    def setup(self):
-        pass
+    def setup_scanner(self):
+        self.scanner = port_scanner.PortScanner(
+            self.args["host"],
+            self.args["ports"],
+            self.args["timeout"],
+            self.args["max_probes"],
+            self.args["verbose"]
+        )
 
     def get_args(self):
         parser = argparse.ArgumentParser()
         parser.add_argument("--host", required=True)
         parser.add_argument("--ports", required=True)
         parser.add_argument("--timeout", type=int, default=1)
-        parser.add_argument("--max_probes", type=int, default=0)
+        parser.add_argument("--max_probes", type=int, default=1)
         parser.add_argument("--verbose", type=bool, default=False)
 
         args = parser.parse_args()

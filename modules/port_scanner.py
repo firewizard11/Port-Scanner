@@ -47,14 +47,14 @@ class PortScanner():
 
             for future in as_completed(futures):
                 port = futures[future]
-                print(port)
+                print(f"[*] Scanning {port}")
                 is_open = future.result()
-
+                
                 if is_open:
+                    print(f"[+] {port} is Open")
                     open_ports.append(port)
 
         return open_ports
-
 
     def tcp_probe(self, target_port: int) -> bool:
         """ Completes full 3 way handshake to test port

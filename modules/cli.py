@@ -1,6 +1,7 @@
 import argparse
 import re
-import helper
+from modules import helper
+from modules import port_scanner
 
 class CLI:
 
@@ -19,9 +20,14 @@ class CLI:
         parser.add_argument("--verbose", type=bool, default=False)
 
         args = parser.parse_args()
-        
-        print(args)
 
+        self.args = {
+            "host": args.host,
+            "ports": self.parse_ports(args.ports),
+            "timeout": args.timeout,
+            "max_probes": args.max_probes,
+            "verbose": args.verbose
+        }
 
     def parse_ports(self, ports_arg: str) -> list[int]:
         r_single = r"\d{1,5}"

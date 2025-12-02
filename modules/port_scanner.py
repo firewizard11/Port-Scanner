@@ -49,17 +49,20 @@ class PortScanner():
         if self.verbose: print(f"[*] Starting Concurrent Scan on {self.target_host} (max_probes={self.max_probes})")
         open_ports = []
 
-        with ThreadPoolExecutor(self.max_probes) as pool:
-            futures = {pool.submit(self.tcp_probe, port):port for port in self.target_ports}
+        try:
+            with ThreadPoolExecutor(self.max_probes) as pool:
+                futures = {pool.submit(self.tcp_probe, port):port for port in self.target_ports}
 
-            for future in as_completed(futures):
-                port = futures[future]
-                if self.verbose: print(f"[*] Scanning {port}")
-                is_open = future.result()
-                
-                if is_open:
-                    if self.verbose: print(f"[+] {port} is Open")
-                    open_ports.append(port)
+                for future in as_completed(futures):
+                    port = futures[future]
+                    if self.verbose: print(f"[*] Scanning {port}")
+                    is_open = future.result()
+                    
+                    if is_open:
+                        if self.verbose: print(f"[+] {port} is Open")
+                        open_ports.append(port)
+        except KeyboardInterrupt:
+            pass
 
         return open_ports
 

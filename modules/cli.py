@@ -8,16 +8,28 @@ class CLI:
     def run(self):
         self.get_args()
         self.setup_scanner()
-
-        if self.args["threaded"]:
-            results = self.scanner.concurrent_scan()
-        else:
-            results = self.scanner.sequential_scan()
-
+        self.run_scan()
         self.print_results()
 
+    def run_scan(self):
+        self.open_ports = []
+
+        try:            
+            if self.args["threaded"]:
+                self.open_ports = self.scanner.concurrent_scan()
+            else:
+                self.open_ports = self.scanner.sequential_scan()
+        except KeyboardInterrupt:
+            print("Caught Ctrl+C, Exiting...")
+
     def print_results(self):
-        pass
+        print("=== SCAN REPORT ===")
+        print(f"Target Host: {self.args["host"]}")
+
+        print(f"Found {len(self.open_ports)} open ports")
+        for port in self.args["ports"]:
+            if port in self.open_ports:
+                print(f"{port} :: Open")
 
     def setup_scanner(self):
         self.scanner = port_scanner.PortScanner(

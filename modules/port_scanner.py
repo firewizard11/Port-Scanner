@@ -12,7 +12,7 @@ class PortScanner():
         self.target_host = target_host
 
         self.target_ports = target_ports
-        helper.validate_port_list()
+        helper.validate_port_list(self.target_ports)
         
         self.timeout = timeout # The amount of time to wait before ending a probe
         if self.timeout < 1:

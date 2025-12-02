@@ -81,23 +81,3 @@ class PortScanner():
                 return True
             except:
                 return False
-            
-    def validate_port_list(self):
-        if not isinstance(self.target_ports, list):
-            raise TypeError("portlist should be a list")
-        
-        if len(self.target_ports) < 1:
-            raise ValueError(f"portlist should have atleast 1 port (current={len(self.target_ports)})")
-        
-        if len(self.target_ports) > 65535:
-            raise ValueError(f"portlist should have less than 65535 ports (current={len(self.target_ports)})")
-        
-        for port in self.target_ports:
-            self.validate_port(port)
-    
-    def validate_port(self, port: int):
-        if not isinstance(port, int):
-            raise TypeError("port should be of type int")
-        
-        if not (0 < port <= 65535):
-            raise ValueError("port should be between 1 and 65535 (inclusive)")

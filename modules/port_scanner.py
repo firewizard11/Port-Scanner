@@ -7,7 +7,7 @@ MAX_PORT = 65535
 
 class PortScanner():
 
-    def __init__(self, target_host: str, target_ports: list[int], timeout: int = 1, max_probes: int = 1):
+    def __init__(self, target_host: str, target_ports: list[int], timeout: int = 1, max_probes: int = 1, verbose: bool = False):
         self.target_host = target_host
 
         self.target_ports = target_ports
@@ -20,6 +20,8 @@ class PortScanner():
         self.max_probes = max_probes
         if self.max_probes < 1:
             raise ValueError("max_probes should be 1 or higher")
+        
+        self.verbose = verbose
 
 
     def sequential_scan(self) -> list[int]:
@@ -27,10 +29,13 @@ class PortScanner():
         :returns:
         open_ports(list[int]): List of port numbers that returned True with the probe
         """
+        if self.verbose: print(f"[*] Starting Sequential Scan on {self.target_host}")
         open_ports = []
 
         for port in self.target_ports:
-            if self.tcp_probe(port):
+            if self.verbose: print(f"[*] Scanning {port}")
+            if self.tcp_probe(port): 
+                if self.verbose: print(f"[+] {port} is Open")
                 open_ports.append(port)
 
         return open_ports
@@ -40,6 +45,7 @@ class PortScanner():
         :returns:
         open_ports(list[int]): List of port numbers that returned True with the probe
         """
+        if self.verbose: print(f"[*] Starting Concurrent Scan on {self.target_host} (max_probes={self.max_probes})")
         open_ports = []
 
         with ThreadPoolExecutor(self.max_probes) as pool:
@@ -47,11 +53,11 @@ class PortScanner():
 
             for future in as_completed(futures):
                 port = futures[future]
-                print(f"[*] Scanning {port}")
+                if self.verbose: print(f"[*] Scanning {port}")
                 is_open = future.result()
                 
                 if is_open:
-                    print(f"[+] {port} is Open")
+                    if self.verbose: print(f"[+] {port} is Open")
                     open_ports.append(port)
 
         return open_ports

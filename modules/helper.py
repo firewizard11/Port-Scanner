@@ -1,4 +1,10 @@
 def validate_port_list(port_list: list[int]):
+    """Validates a list of port numbers
+    :raises:
+    - TypeError
+    - ValueError
+    """
+    
     if not isinstance(port_list, list):
         raise TypeError("portlist should be a list")
     
@@ -12,6 +18,11 @@ def validate_port_list(port_list: list[int]):
         validate_port(port)
 
 def validate_port(port: int):
+    """Validates a port number
+    :raises:
+    - TypeError
+    - ValueError
+    """
     if not isinstance(port, int):
         raise TypeError("port should be of type int")
     

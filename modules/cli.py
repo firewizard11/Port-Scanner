@@ -9,6 +9,13 @@ class CLI:
         self.get_args()
         self.setup_scanner()
 
+        if self.args["threaded"]:
+            results = self.scanner.concurrent_scan()
+        else:
+            results = self.scanner.sequential_scan()
+
+        self.print_results()
+
     def print_results(self):
         pass
 
@@ -28,9 +35,7 @@ class CLI:
         parser.add_argument("-t", "--timeout", type=int, default=1)
         parser.add_argument("-mp", "--max_probes", type=int, default=1)
         parser.add_argument("-v", "--verbose", type=bool, default=False)
-        parser.add_argument("-st", "--scan_type", choices=[
-            "tcp",
-        ], required=True)
+        parser.add_argument("-T", "--threaded", type=bool, default=False)
 
         args = parser.parse_args()
 
@@ -40,7 +45,7 @@ class CLI:
             "timeout": args.timeout,
             "max_probes": args.max_probes,
             "verbose": args.verbose,
-            "scan_type": args.scan_type
+            "threaded": args.threaded
         }
 
     def parse_ports(self, ports_arg: str) -> list[int]:

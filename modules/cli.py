@@ -25,6 +25,9 @@ class CLI:
         parser.add_argument("--timeout", type=int, default=1)
         parser.add_argument("--max_probes", type=int, default=1)
         parser.add_argument("--verbose", type=bool, default=False)
+        parser.add_argument("--scan_type", choices=[
+            "tcp",
+        ], required=True)
 
         args = parser.parse_args()
 
@@ -33,7 +36,8 @@ class CLI:
             "ports": self.parse_ports(args.ports),
             "timeout": args.timeout,
             "max_probes": args.max_probes,
-            "verbose": args.verbose
+            "verbose": args.verbose,
+            "scan_type": args.scan_type
         }
 
     def parse_ports(self, ports_arg: str) -> list[int]:

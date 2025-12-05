@@ -1,3 +1,6 @@
+MAX_PORT = 65535
+MIN_PORT = 1
+
 def validate_port_list(port_list: list[int]):
     """Validates a list of port numbers
     :raises:

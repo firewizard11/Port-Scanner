@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from modules import helper
 
 
-MAX_PORT = 65535
+
 
 
 class PortScanner():

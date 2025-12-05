@@ -14,7 +14,7 @@ def validate_port_list(port_list: list[int]):
     if len(port_list) < 1:
         raise ValueError(f"portlist should have atleast 1 port (current={len(port_list)})")
     
-    if len(port_list) > 65535:
+    if len(port_list) > MAX_PORT:
         raise ValueError(f"portlist should have less than 65535 ports (current={len(port_list)})")
     
     for port in port_list:
@@ -29,5 +29,5 @@ def validate_port(port: int):
     if not isinstance(port, int):
         raise TypeError("port should be of type int")
     
-    if not (0 < port <= 65535):
+    if not (MIN_PORT < port <= MAX_PORT):
         raise ValueError("port should be between 1 and 65535 (inclusive)")

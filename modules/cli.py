@@ -45,7 +45,7 @@ class CLI:
         parser = argparse.ArgumentParser(add_help=False)
         parser.add_argument("-h", "--host", required=True, help="Target Host to Scan (supports: IPv4, Hostnames)")
         parser.add_argument("-p", "--ports", required=True, help="Ports to Test (formats: single, comma-sep, start-end)")
-        parser.add_argument("-t", "--timeout", type=float, default=1, help="How many seconds to wait for a port to respond")
+        parser.add_argument("-t", "--timeout", type=float, default=0.5, help="How many seconds to wait for a port to respond")
         parser.add_argument("-mp", "--max_probes", type=int, default=1, help="The highest number of probes to use in concurrent scans (must use -T)")
         parser.add_argument("-v", "--verbose", action="store_true", help="Makes output verbose")
         parser.add_argument("-T", "--threaded", action="store_true", help="Makes scan concurrent")

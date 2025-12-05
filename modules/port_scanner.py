@@ -3,12 +3,9 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from modules import helper
 
 
-
-
-
 class PortScanner():
 
-    def __init__(self, target_host: str, target_ports: list[int], timeout: float = 1, max_probes: int = 1, verbose: bool = False):
+    def __init__(self, target_host: str, target_ports: list[int], timeout: float = 0.5, max_probes: int = 1, verbose: bool = False):
         self.target_host = target_host
 
         self.target_ports = target_ports
@@ -24,7 +21,6 @@ class PortScanner():
         
         self.verbose = verbose
 
-
     def sequential_scan(self) -> list[int]:
         """Scan each port in target_ports one after the other
         :returns:
@@ -35,8 +31,8 @@ class PortScanner():
 
         for port in self.target_ports:
             if self.verbose: print(f"[*] Scanning {port}")
-            if self.tcp_probe(port): 
-                if self.verbose: print(f"[+] {port} is Open")
+            
+            if self.tcp_probe(port):
                 open_ports.append(port)
 
         return open_ports
@@ -59,8 +55,8 @@ class PortScanner():
                     is_open = future.result()
                     
                     if is_open:
-                        if self.verbose: print(f"[+] {port} is Open")
                         open_ports.append(port)
+
             except KeyboardInterrupt:
                 pool.shutdown(wait=False, cancel_futures=True)
                 raise KeyboardInterrupt()
@@ -83,6 +79,7 @@ class PortScanner():
             sock.settimeout(self.timeout)
             try:
                 sock.connect(target_addr)
+                if self.verbose: print(f"[+] {target_port} is Open")
                 return True
             except:
                 return False

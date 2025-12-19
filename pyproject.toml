@@ -1,0 +1,12 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+dynamic = ["version"]
+name = "Port-Scanner"
+readme = "README"
+license-files = ["LICENSE"]
+
+[project.scripts]
+port_scan = "modules.cli:run"

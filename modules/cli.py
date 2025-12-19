@@ -75,7 +75,6 @@ def run() -> int:
         "timeout": args.timeout,
         "max_probes": args.max_probes,
         "verbose": args.verbose,
-        "threaded": args.threaded,
     }
 
     scanner = port_scanner.PortScanner(

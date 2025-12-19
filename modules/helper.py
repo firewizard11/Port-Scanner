@@ -36,7 +36,7 @@ def validate_port(port: int):
 
 def parse_ports(ports_arg: str) -> list[int]:
     r_single = r"\d{1,5}"
-    r_csv = r"(\d{1,5},{0,1})+"
+    r_csv = r"\d{1,5}(,\d{1,5})*"
     r_range = r"\d{1,5}-\d{1,5}"
     ports_list = []
 
@@ -48,9 +48,17 @@ def parse_ports(ports_arg: str) -> list[int]:
             ports_list.append(int(port))
     elif re.fullmatch(r_range, ports_arg):
         start, end = ports_arg.split("-")
-        for port in range(int(start), int(end) + 1):
-            ports_list.append(port)
-    
+        start, end = int(start), int(end)
+
+        if start < end:
+            for port in range(start, end + 1):
+                ports_list.append(port)
+        elif start == end:
+            ports_list.append(start)
+        else:
+            for port in range(start, end-1, -1):
+                ports_list.append(port)
+
     try:
         validate_port_list(ports_list)
     except Exception as e:

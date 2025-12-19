@@ -1,3 +1,5 @@
+import re
+
 MAX_PORT = 65535
 MIN_PORT = 1
 
@@ -31,3 +33,28 @@ def validate_port(port: int):
     
     if not (MIN_PORT <= port <= MAX_PORT):
         raise ValueError("port should be between 1 and 65535 (inclusive)")
+
+def parse_ports(ports_arg: str) -> list[int]:
+    r_single = r"\d{1,5}"
+    r_csv = r"(\d{1,5},{0,1})+"
+    r_range = r"\d{1,5}-\d{1,5}"
+    ports_list = []
+
+    if re.fullmatch(r_single, ports_arg):
+        ports_list.append(int(ports_arg))
+    elif re.fullmatch(r_csv, ports_arg):
+        ports_str = ports_arg.split(",")
+        for port in ports_str:
+            ports_list.append(int(port))
+    elif re.fullmatch(r_range, ports_arg):
+        start, end = ports_arg.split("-")
+        for port in range(int(start), int(end) + 1):
+            ports_list.append(port)
+    
+    try:
+        validate_port_list(ports_list)
+    except:
+        print("Please enter a valid port or port list")
+        exit(1)
+    
+    return ports_list

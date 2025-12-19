@@ -1,4 +1,4 @@
 from modules import cli
 
-prog = cli.CLI()
-prog.run()
+ret_code = cli.run()
+exit(ret_code)

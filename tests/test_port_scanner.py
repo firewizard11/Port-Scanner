@@ -11,7 +11,8 @@ def create_port(port: int, open: bool) -> socket:
     if open: s.listen(2)
     return s
 
-class TestTCPProbe(unittest.TestCase):
+
+class TestPortScanner(unittest.TestCase):
 
     def setUp(self):
 
@@ -29,22 +30,33 @@ class TestTCPProbe(unittest.TestCase):
         for port in self.port_list:
             self.port_dict[port].close()
 
-    def test_open_ports(self):
+    def create_ports(self, open: bool):
         for port in self.port_list:
             try:
-                self.port_dict[port] = create_port(port, True)
+                self.port_dict[port] = create_port(port, open)
             except PermissionError:
                 self.port_list.remove(port)
 
+class TestTCPProbe(TestPortScanner):
+
+    def test_open_ports(self):
+        self.create_ports(True)
         for port in self.port_list:
             self.assertTrue(self.scanner.tcp_probe(port))
 
     def test_closed_ports(self):
-        for port in self.port_list:
-            try:
-                self.port_dict[port] = create_port(port, False)
-            except PermissionError:
-                self.port_list.remove(port)
-
+        self.create_ports(False)
         for port in self.port_list:
             self.assertFalse(self.scanner.tcp_probe(port))
+
+class TestSequentialScan(TestPortScanner):
+    
+    def test_open_ports(self):
+        self.create_ports(True)
+        result_list = self.scanner.sequential_scan()
+        self.assertEqual(self.port_list, result_list)
+
+    def test_closed_ports(self):
+        self.create_ports(False)
+        result_list = self.scanner.sequential_scan()
+        self.assertEqual([], result_list)

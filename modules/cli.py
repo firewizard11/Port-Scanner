@@ -1,4 +1,4 @@
-import argparse
+from argparse import ArgumentParser
 from modules import helper
 from modules import port_scanner
 
@@ -12,7 +12,7 @@ banner = \
  |_|   \___/|_|   \__| |_____/ \___\__,_|_| |_|_| |_|\___|_|                                                                                                                                                                                                                                        
 """
 
-def custom_help(parser: argparse.ArgumentParser):
+def custom_help(parser: ArgumentParser):
     print(banner)
     parser.print_help()
 
@@ -25,7 +25,7 @@ def run() -> int:
         - 130: Exitted with Ctrl+C
     """
 
-    parser = argparse.ArgumentParser(add_help=False)
+    parser = ArgumentParser(add_help=False)
     parser.add_argument(
         "-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames), Required"
     )

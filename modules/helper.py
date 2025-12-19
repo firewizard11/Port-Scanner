@@ -1,4 +1,4 @@
-import re
+from re import fullmatch
 
 MAX_PORT = 65535
 MIN_PORT = 1
@@ -47,13 +47,13 @@ def parse_ports(ports_arg: str) -> list[int]:
     r_range = r"\d{1,5}-\d{1,5}"
     ports_list = []
 
-    if re.fullmatch(r_single, ports_arg):
+    if fullmatch(r_single, ports_arg):
         ports_list.append(int(ports_arg))
-    elif re.fullmatch(r_csv, ports_arg):
+    elif fullmatch(r_csv, ports_arg):
         ports_str = ports_arg.split(",")
         for port in ports_str:
             ports_list.append(int(port))
-    elif re.fullmatch(r_range, ports_arg):
+    elif fullmatch(r_range, ports_arg):
         start, end = ports_arg.split("-")
         start, end = int(start), int(end)
 

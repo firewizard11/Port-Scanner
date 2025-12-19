@@ -1,4 +1,4 @@
-import socket
+from socket import socket, AF_INET, SOCK_STREAM
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from modules import helper
 
@@ -91,7 +91,7 @@ class PortScanner:
         """
         target_addr = (self.target_host, target_port)
 
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        with socket(AF_INET, SOCK_STREAM) as sock:
             sock.settimeout(self.timeout)
             try:
                 sock.connect(target_addr)

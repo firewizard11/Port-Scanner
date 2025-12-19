@@ -53,8 +53,8 @@ def parse_ports(ports_arg: str) -> list[int]:
     
     try:
         validate_port_list(ports_list)
-    except:
+    except Exception as e:
         print("Please enter a valid port or port list")
-        exit(1)
+        raise e
     
     return ports_list

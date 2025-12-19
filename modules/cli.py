@@ -8,9 +8,8 @@ def run() -> int:
     parser.add_argument("-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames)")
     parser.add_argument("-p", "--ports", help="Ports to Test (formats: single, comma-sep, start-end)")
     parser.add_argument("-t", "--timeout", type=float, default=0.5, help="How many seconds to wait for a port to respond")
-    parser.add_argument("-mp", "--max_probes", type=int, default=1, help="The highest number of probes to use in concurrent scans (must use -T)")
+    parser.add_argument("-mp", "--max_probes", type=int, default=0, help="Makes scan concurrent with MAX_PROBES as the number of max probes")
     parser.add_argument("-v", "--verbose", action="store_true", help="Makes output verbose")
-    parser.add_argument("-T", "--threaded", action="store_true", help="Makes scan concurrent")
     parser.add_argument("--help", action="help", help="Shows this help message")
 
     args = parser.parse_args()
@@ -18,10 +17,19 @@ def run() -> int:
     if None in (args.host, args.ports):
         parser.print_help()
         return 0
+    
+    try:
+        parsed_ports = helper.parse_ports(args.ports)
+    except:
+        return 1
+    
+    if args.max_probes < 0:
+        print("Please enter max_probes greater than 1")
+        return 1
 
     arg_list = {
         "host": args.host,
-        "ports": helper.parse_ports(args.ports),
+        "ports": parsed_ports,
         "timeout": args.timeout,
         "max_probes": args.max_probes,
         "verbose": args.verbose,
@@ -39,7 +47,7 @@ def run() -> int:
     open_ports = []
 
     try:            
-        if arg_list["threaded"]:
+        if arg_list["max_probes"]:
             open_ports = scanner.concurrent_scan()
         else:
             open_ports = scanner.sequential_scan()

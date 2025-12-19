@@ -14,10 +14,12 @@ def run() -> int:
 
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(
-        "-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames)"
+        "-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames), Required"
     )
     parser.add_argument(
-        "-p", "--ports", help="Ports to Test (formats: single, comma-sep, start-end)"
+        "-p",
+        "--ports",
+        help="Ports to Test (formats: single, comma-sep, start-end), Required",
     )
     parser.add_argument(
         "-t",

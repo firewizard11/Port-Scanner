@@ -17,11 +17,21 @@ Port Scanner is a CLI port scanner.
 
 ## Install Guide
 
+### Cloning Repository
+
 ```bash
 git clone https://github.com/firewizard11/Port-Scanner.git
 cd Port-Scanner
 python3 port_scan.py
 ```
+
+### Get a Windows .exe
+
+Requires: 7zip
+
+1. Downlaod [Windows Standalone](https://github.com/firewizard11/Port-Scanner/releases/tag/Windows) from Releases
+2. Unzip `port_scan.7z` using 7zip
+3. From inside a terminal run `.\port_scan.exe`
 
 ## Requirements
 

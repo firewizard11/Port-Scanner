@@ -100,3 +100,6 @@ class PortScanner:
                 return True
             except:
                 return False
+
+    def syn_probe(self, target_port: int) -> bool:
+        pass

@@ -4,6 +4,14 @@ from modules import port_scanner
 
 
 def run() -> int:
+    """Runs the port scanner program
+    Returns:
+      - int
+        - 0: Exitted Normally
+        - 1: Exitted w/ Error
+        - 130: Exitted with Ctrl+C
+    """
+
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument(
         "-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames)"
@@ -38,7 +46,8 @@ def run() -> int:
 
     try:
         parsed_ports = helper.parse_ports(args.ports)
-    except:
+    except Exception as e:
+        print(e) # Lazy
         return 1
 
     if args.max_probes < 0:

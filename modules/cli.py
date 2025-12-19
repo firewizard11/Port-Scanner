@@ -45,7 +45,7 @@ def run() -> int:
         "-mp",
         "--max_probes",
         type=int,
-        default=0,
+        default=1,
         help="Makes scan concurrent with MAX_PROBES as the number of max probes (default: 1 probe)",
     )
     parser.add_argument(
@@ -88,7 +88,7 @@ def run() -> int:
     open_ports = []
 
     try:
-        if arg_list["max_probes"]:
+        if arg_list["max_probes"] > 1:
             open_ports = scanner.concurrent_scan()
         else:
             open_ports = scanner.sequential_scan()

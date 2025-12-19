@@ -20,7 +20,7 @@ Port Scanner is a CLI port scanner.
 ```bash
 git clone https://github.com/firewizard11/Port-Scanner.git
 cd Port-Scanner
-python3 port_scan.py [options]
+python3 port_scan.py
 ```
 
 ## Requirements

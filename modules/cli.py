@@ -5,11 +5,29 @@ from modules import port_scanner
 
 def run() -> int:
     parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument("-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames)")
-    parser.add_argument("-p", "--ports", help="Ports to Test (formats: single, comma-sep, start-end)")
-    parser.add_argument("-t", "--timeout", type=float, default=0.5, help="How many seconds to wait for a port to respond")
-    parser.add_argument("-mp", "--max_probes", type=int, default=0, help="Makes scan concurrent with MAX_PROBES as the number of max probes")
-    parser.add_argument("-v", "--verbose", action="store_true", help="Makes output verbose")
+    parser.add_argument(
+        "-h", "--host", help="Target Host to Scan (supports: IPv4, Hostnames)"
+    )
+    parser.add_argument(
+        "-p", "--ports", help="Ports to Test (formats: single, comma-sep, start-end)"
+    )
+    parser.add_argument(
+        "-t",
+        "--timeout",
+        type=float,
+        default=0.5,
+        help="How many seconds to wait for a port to respond",
+    )
+    parser.add_argument(
+        "-mp",
+        "--max_probes",
+        type=int,
+        default=0,
+        help="Makes scan concurrent with MAX_PROBES as the number of max probes",
+    )
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Makes output verbose"
+    )
     parser.add_argument("--help", action="help", help="Shows this help message")
 
     args = parser.parse_args()
@@ -17,12 +35,12 @@ def run() -> int:
     if None in (args.host, args.ports):
         parser.print_help()
         return 0
-    
+
     try:
         parsed_ports = helper.parse_ports(args.ports)
     except:
         return 1
-    
+
     if args.max_probes < 0:
         print("Please enter max_probes greater than 1")
         return 1
@@ -33,7 +51,7 @@ def run() -> int:
         "timeout": args.timeout,
         "max_probes": args.max_probes,
         "verbose": args.verbose,
-        "threaded": args.threaded
+        "threaded": args.threaded,
     }
 
     scanner = port_scanner.PortScanner(
@@ -41,12 +59,12 @@ def run() -> int:
         arg_list["ports"],
         arg_list["timeout"],
         arg_list["max_probes"],
-        arg_list["verbose"]
+        arg_list["verbose"],
     )
 
     open_ports = []
 
-    try:            
+    try:
         if arg_list["max_probes"]:
             open_ports = scanner.concurrent_scan()
         else:

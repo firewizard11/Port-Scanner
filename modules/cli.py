@@ -24,14 +24,14 @@ def run() -> int:
         "--timeout",
         type=float,
         default=0.5,
-        help="How many seconds to wait for a port to respond",
+        help="How many seconds to wait for a port to respond (default: 0.5s)",
     )
     parser.add_argument(
         "-mp",
         "--max_probes",
         type=int,
         default=0,
-        help="Makes scan concurrent with MAX_PROBES as the number of max probes",
+        help="Makes scan concurrent with MAX_PROBES as the number of max probes (default: 1 probe)",
     )
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Makes output verbose"

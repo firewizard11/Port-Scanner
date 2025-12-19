@@ -2,6 +2,19 @@ import argparse
 from modules import helper
 from modules import port_scanner
 
+banner = \
+"""
+  _____           _      _____                                 
+ |  __ \         | |    / ____|                                
+ | |__) |__  _ __| |_  | (___   ___ __ _ _ __  _ __   ___ _ __ 
+ |  ___/ _ \| '__| __|  \___ \ / __/ _` | '_ \| '_ \ / _ \ '__|
+ | |  | (_) | |  | |_   ____) | (_| (_| | | | | | | |  __/ |   
+ |_|   \___/|_|   \__| |_____/ \___\__,_|_| |_|_| |_|\___|_|                                                                                                                                                                                                                                        
+"""
+
+def custom_help(parser: argparse.ArgumentParser):
+    print(banner)
+    parser.print_help()
 
 def run() -> int:
     """Runs the port scanner program
@@ -38,12 +51,12 @@ def run() -> int:
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Makes output verbose"
     )
-    parser.add_argument("--help", action="help", help="Shows this help message")
+    parser.add_argument("--help", action="store_true", help="Shows this help message")
 
     args = parser.parse_args()
 
-    if None in (args.host, args.ports):
-        parser.print_help()
+    if args.help or (None in (args.host, args.ports)):
+        custom_help(parser)
         return 0
 
     try:

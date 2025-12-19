@@ -28,7 +28,7 @@ def validate_port(port: int):
     - TypeError
     - ValueError
     """
-    if not isinstance(port, int):
+    if not isinstance(port, int) or isinstance(port, bool):
         raise TypeError("port should be of type int")
     
     if not (MIN_PORT <= port <= MAX_PORT):

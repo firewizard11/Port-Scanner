@@ -6,7 +6,7 @@ from modules import port_scanner
 def run() -> int:
     """Runs the port scanner program
     Returns:
-      - int
+      - int: Program return code on exit
         - 0: Exitted Normally
         - 1: Exitted w/ Error
         - 130: Exitted with Ctrl+C
@@ -47,7 +47,7 @@ def run() -> int:
     try:
         parsed_ports = helper.parse_ports(args.ports)
     except Exception as e:
-        print(e) # Lazy
+        print(e)  # Lazy
         return 1
 
     if args.max_probes < 0:

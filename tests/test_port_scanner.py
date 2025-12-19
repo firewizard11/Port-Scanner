@@ -28,7 +28,7 @@ class TestPortScanner(unittest.TestCase):
 
     def tearDown(self):
         for port in self.port_list:
-            self.port_dict[port].close()
+            if type(self.port_dict[port]) is socket.socket: self.port_dict[port].close()
 
     def create_ports(self, open: bool):
         for port in self.port_list:
